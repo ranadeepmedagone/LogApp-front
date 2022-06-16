@@ -3,7 +3,7 @@
 
   <div class="smch">
 
-    <Header />
+    <SuperUserHeader />
 
     
    <el-table
@@ -48,7 +48,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="deleteLog(scope.$index, scope.row)">Delete</el-button>
+          @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -92,12 +92,32 @@ import {mapState} from 'vuex'
 
     methods: {
 
+      
 
-      async deleteLog(id) {
-        await this.$store.dispatch('deleteLog', id)
-        await this.$store.dispatch('getAllLogs')
-        this.$router.push('/Loghome')
-    }
+      async rowClick(id){
+      console.log(id)
+      await this.$store.dispatch('goToLog', id)
+      await this.$router.push('/SingleLog')
+
+      },
+
+      // async goToLog(id) {
+      // console.log(id)
+      // await this.$store.dispatch('goToLog', id)
+      // await this.$router.push('/SingleLog')
+    // },
+      toggleSelection(rows) {
+        if (rows) {
+          rows.forEach(row => {
+            this.$refs.multipleTable.toggleRowSelection(row);
+          });
+        } else {
+          this.$refs.multipleTable.clearSelection();
+        }
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
       
     }
   }

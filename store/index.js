@@ -49,6 +49,11 @@ const mutations = {
 
     updateDescription(state, data) {
         state.Description = data
+    },
+
+    updateUser(state,data) {
+        const index = state.users.findIndex((user) => user.id === user.id)
+        state.users[index].title = data.title
     }
 
 
@@ -149,6 +154,7 @@ const actions = {
         commit('updateDescription', data.Description)
       },
 
+      
 
 
 }

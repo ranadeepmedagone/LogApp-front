@@ -1,50 +1,53 @@
 <template>
 
+<div class="smch">
 
-  <div class="smch">
+    <div class="nav">
+        <el-button @click="$router.back()" icon="el-icon-back" plain></el-button>
+        <el-input
 
-    <Header />
+          :data="logs.filter(data => !search )"
+          v-model="search"
+          @click="search"
+          
+          placeholder="Type to search"/>
+        <el-button v-loading="loading"   plain size="medium"  slot="reference"  @click="deleteLog"> CreateUser </el-button>
+        
+    </div>
 
-    
-   <el-table
+
+        <el-table
     ref="multipleTable"
     :data="logs"
     
     @row-click="rowClick(log.id)"
     style="width: 100%"
-    @selection-change="handleSelectionChange">
+    >
+    
+    
     
     <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
-    <!-- <el-table-column
-      label="Date"
-      width="120">
-      <template slot-scope="scope">{{ scope.row.date }}</template>
-    </el-table-column> -->
-    <el-table-column
-      prop="title"
-      label="Title"
+      prop="id"
+      label="Id"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="description"
-      label="Description"
+      prop="name"
+      label="Name"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="stack_trace"
-      label="StackTrace"
+      prop="email"
+      label="Email"
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
       align="right">
       
       <template slot-scope="scope">
-        <el-button
+          <el-button
           size="mini"
-          @click="handleEdit(scope.$index, scope.row)" icon="el-icon-view" ></el-button>
+          @click="handleEdit(scope.$index, scope.row)" icon="el-icon-edit" ></el-button>
         <el-button
           size="mini"
           type="danger"
@@ -52,11 +55,12 @@
       </template>
     </el-table-column>
   </el-table>
-    </div>
-  <!-- <div style="margin-top: 20px">
-    <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of second and third rows</el-button>
-    <el-button @click="toggleSelection()">Clear selection</el-button>
-  </div> -->
+
+  
+
+
+
+          </div>
 </template>
 
 <script>
@@ -67,7 +71,7 @@ import {mapState} from 'vuex'
       return {
         
       search: '',
-      multipleSelection: [],
+      
         
       }
     },
@@ -102,8 +106,21 @@ import {mapState} from 'vuex'
     }
   }
 </script>
+
+
 <style scoped>
+.nav{
+    display: flex;
+    justify-content: space-evenly;
+}
+.select{
+    display: flex;
+    justify-content: space-between;
+}
 .smch{
     margin: 30px;
 }
+/* .title{
+ font-weight: bold;
+} */
 </style>

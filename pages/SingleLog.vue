@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smch">
     <!-- ------- Action Buttons ------- -->
       <div class="nav">
         <el-button @click="$router.back()" icon="el-icon-back" plain></el-button>
@@ -154,5 +154,8 @@ export default {
 }
 .title{
  font-weight: bold;
+}
+.smch{
+    margin: 30px;
 }
 </style>

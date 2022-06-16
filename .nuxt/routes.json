@@ -1,5 +1,12 @@
 [
   {
+    "name": "AllUsers",
+    "path": "/AllUsers",
+    "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\AllUsers.vue",
+    "chunkName": "pages/AllUsers",
+    "_name": "_30d8af53"
+  },
+  {
     "name": "Loghome",
     "path": "/Loghome",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\Loghome.vue",
@@ -12,6 +19,13 @@
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\SingleLog.vue",
     "chunkName": "pages/SingleLog",
     "_name": "_037569a0"
+  },
+  {
+    "name": "SuperUserLoghome",
+    "path": "/SuperUserLoghome",
+    "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\SuperUserLoghome.vue",
+    "chunkName": "pages/SuperUserLoghome",
+    "_name": "_c9f1166e"
   },
   {
     "name": "UpdateUser",

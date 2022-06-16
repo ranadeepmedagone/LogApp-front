@@ -60,7 +60,7 @@ export default {
       console.log(this.formData.email)
       console.log(this.formData.hash_password)
       await this.$store.dispatch('login', this.formData)
-      this.$router.push({ path: '/Loghome' })
+      this.$router.push({ path: '/SuperUserLoghome' })
     },
   },
   head() {
