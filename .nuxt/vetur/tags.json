@@ -1,0 +1,11 @@
+{
+  "Header": {
+    "description": "Auto imported from components/Header.vue"
+  },
+  "Sidebar": {
+    "description": "Auto imported from components/Sidebar.vue"
+  },
+  "UISticky": {
+    "description": "Auto imported from components/UI/Sticky.vue"
+  }
+}
