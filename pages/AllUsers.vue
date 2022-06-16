@@ -111,7 +111,7 @@ import {mapState} from 'vuex'
 <style scoped>
 .nav{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 .select{
     display: flex;
