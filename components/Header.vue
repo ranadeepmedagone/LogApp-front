@@ -33,8 +33,10 @@
       <div >
       
           <el-input
-          
+
+          :data="logs.filter(data => !search )"
           v-model="search"
+          @click="search"
           
           placeholder="Type to search"/>
       
@@ -47,9 +49,18 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
   export default {
     data() {
       return {
+        search: '',
+        queryParams: {
+          // page: 1,
+          // limit: 20,
+          // title: '',
+          // from: '',
+          // to: ''
+        },
         options: [{
           value: 'Option1',
           label: 'Option1'
@@ -97,11 +108,32 @@
           }]
         },
         value1: '',
-        value2: ''
-      };
-    },
+        value2: '',
+
+
+      
+  
+    };
     
-  };
+    
+  },
+  async search() {
+      this.filter.search = this.searchInput
+
+      let success = await this.allLogs()
+      if (success)
+        this.$message({
+          message: 'Search applied',
+          duration: 3000,
+    
+        })
+    },
+      computed: {
+        ...mapState(['logs'])
+      },
+
+    
+};
 </script>
 
 <style>

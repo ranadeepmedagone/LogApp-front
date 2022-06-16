@@ -6,7 +6,9 @@ const state = () => ({
     logs: [],
     // comments: [],
     log: [],
-    errorMsg: null
+    errorMsg: null,
+    description: null,
+    title: null
 
 })
 
@@ -43,6 +45,10 @@ const mutations = {
     // },
     setError(state, data) {
         state.errorMsg = data
+    },
+
+    updateDescription(state, data) {
+        state.Description = data
     }
 
 
@@ -68,7 +74,15 @@ const actions = {
     
 
     async getAllLogs({ commit, state }, data) {
-        await this.$axios.get('http://localhost:5000/api/Log',).then((res) => {
+        await this.$axios.get('http://localhost:5000/api/Log', {
+            params: {
+                // page: data.page,
+                // limit: data.limit,
+                // title: data.title,
+                // from: data.from,
+                // to: data.to
+            }
+        }).then((res) => {
             console.log(res.data);
             // console.log("hi")
             // this.$router.push('/');
@@ -128,8 +142,13 @@ const actions = {
         })
         commit('setTags', data)
       },
+      async updateDescription({ commit }, data) {
+        console.log(data)
+        const res = await this.$axios.put('log/update', data)
+        console.log(res, 'Updated')
+        commit('updateDescription', data.Description)
+      },
 
-      
 
 
 }

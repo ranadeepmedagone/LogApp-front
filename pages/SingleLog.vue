@@ -3,8 +3,8 @@
     <!-- ------- Action Buttons ------- -->
       <div class="nav">
         <el-button @click="$router.back()" icon="el-icon-back" plain></el-button>
-        
-        <el-button v-loading="loading" style:align= "right" type="danger" plain size="medium" icon="el-icon-delete-solid" slot="reference"> Delete </el-button>
+        <p class="title">Title : {{ Title }}</p>
+        <el-button v-loading="loading"  type="danger" plain size="medium" icon="el-icon-delete-solid" slot="reference"  @click="deleteLog"> Delete </el-button>
         
     </div>
     <br>
@@ -20,11 +20,18 @@
         v-loading="loading"
       >
       <br />
-      <el-form-item label="Description" >
-         <el-input size="small" type="textarea" ></el-input>
-       </el-form-item>
+      <el-input
+  type="textarea"
+  :rows="2"
+  placeholder="Please input"
+  v-model="textarea">
+</el-input>
+<br>
+<br>
+<br>
        <el-form-item>
-         <el-button type="primary" >Add</el-button>
+         <el-button type="primary" v-if="!isVisible" @click="visible">Update</el-button>
+          <el-button type="primary" v-else @click="UpdateDescription">Submit</el-button>
        </el-form-item>
         <!-- ------- Main Inputs ------- -->
       </el-form>
@@ -59,7 +66,7 @@
       :value="item.value">
     </el-option>
   </el-select>
-           <el-button type="primary" @click="addTag">Add</el-button>
+           <el-button type="submit" @click="addTag">Add</el-button>
 
     
 </div>
@@ -69,10 +76,12 @@
 
 <script>
 // import Sticky from '@/components/UI/Sticky'
-
+import {mapState} from 'vuex';
 export default {
   data() {
     return {
+        isVisible:'',
+        textarea:'',
         options: [{
           value: 'tags',
           label: 'tags'
@@ -85,7 +94,9 @@ export default {
         ],
       form: {
         
-        description: 'Default description...',
+      Description: this.$store.state.Description,
+      isVisible: false,
+     
         
         
       },
@@ -109,6 +120,23 @@ export default {
       // await this.$store.dispatch('getAllTags', this.LogId)
       this.tag = ''
     },
+    visible() {
+      this.isVisible = true
+      this.Description = this.$store.state.Description
+    },
+    UpdateDescription() {
+      this.isVisible = false
+      console.log(this.Description)
+      this.$store.dispatch('updateDescription', {
+        description: this.Description,
+      })
+    },
+
+    async deleteLog(id) {
+        await this.$store.dispatch('deleteLog', id)
+        await this.$store.dispatch('getAllLogs')
+        this.$router.push('/Loghome')
+    }
   }
 
   
@@ -123,5 +151,8 @@ export default {
 .select{
     display: flex;
     justify-content: space-between;
+}
+.title{
+ font-weight: bold;
 }
 </style>

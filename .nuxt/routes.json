@@ -3,24 +3,28 @@
     "name": "Loghome",
     "path": "/Loghome",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\Loghome.vue",
-    "chunkName": "pages/Loghome"
+    "chunkName": "pages/Loghome",
+    "_name": "_09718532"
   },
   {
     "name": "SingleLog",
     "path": "/SingleLog",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\SingleLog.vue",
-    "chunkName": "pages/SingleLog"
+    "chunkName": "pages/SingleLog",
+    "_name": "_037569a0"
   },
   {
     "name": "UpdateUser",
     "path": "/UpdateUser",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\UpdateUser.vue",
-    "chunkName": "pages/UpdateUser"
+    "chunkName": "pages/UpdateUser",
+    "_name": "_073ec720"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_38939bb6"
   }
 ]

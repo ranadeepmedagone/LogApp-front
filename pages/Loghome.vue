@@ -66,8 +66,8 @@ import {mapState} from 'vuex'
     data() {
       return {
         
-      
-        multipleSelection: [],
+      search: '',
+      multipleSelection: [],
         
       }
     },
@@ -82,7 +82,7 @@ import {mapState} from 'vuex'
     // },
     
     async mounted() {
-    await this.$store.dispatch('getAllLogs')
+    await this.$store.dispatch('getAllLogs',this.queryParams)
  
     return
   },
@@ -91,6 +91,8 @@ import {mapState} from 'vuex'
 
 
     methods: {
+
+      
 
       async rowClick(id){
       console.log(id)
