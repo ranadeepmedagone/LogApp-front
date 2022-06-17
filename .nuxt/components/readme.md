@@ -8,4 +8,3 @@ You can directly use them in pages and other components without the need to impo
 
 - `<Header>` | `<header>` (components/Header.vue)
 - `<SuperUserHeader>` | `<super-user-header>` (components/SuperUserHeader.vue)
-- `<UISticky>` | `<u-i-sticky>` (components/UI/Sticky.vue)

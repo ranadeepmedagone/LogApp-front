@@ -7,12 +7,14 @@
       <el-input type="text" v-model="ruleForm.name" autocomplete="off"></el-input>
   </el-form-item>
   
-  
+  <el-form-item label="Email" prop="email">
+      <el-input v-model="ruleForm.email"></el-input>
+  </el-form-item>
   <el-form-item label="hash_password" prop="hash_password">
     <el-input type="hash_password" v-model="ruleForm.hash_password" autocomplete="off"></el-input>
   </el-form-item>
   <el-form-item>
-      <el-button type="primary" @click="UpdateUser()">Submit</el-button>
+      <el-button type="primary" @click="CreateUser()">Submit</el-button>
     <el-button @click="resetForm('ruleForm')">Reset</el-button>
   </el-form-item>
 </el-form>
@@ -28,6 +30,7 @@
       return {
         ruleForm: {
           name: '',
+          email: '',
           hash_password: '',
         },
         
@@ -51,10 +54,11 @@
       
         
       
-    async UpdateUser() {
+    async CreateUser() {
       console.log(this.ruleForm.name)
+      console.log(this.ruleForm.email)
       console.log(this.ruleForm.hash_password)
-      await this.$store.dispatch('Update', this.ruleForm)
+      await this.$store.dispatch('CreateUser', this.ruleForm)
       await this.$router.push({ path: '/AllUsers' })
       }
       

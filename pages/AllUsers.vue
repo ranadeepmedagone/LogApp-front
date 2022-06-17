@@ -6,29 +6,31 @@
         <el-button @click="$router.back()" icon="el-icon-back" plain></el-button>
         <el-input
 
-          :data="logs.filter(data => !search )"
+          :data="users"
           v-model="search"
           @click="search"
           
           placeholder="Type to search"/>
-        <el-button v-loading="loading"   plain size="medium"  slot="reference"  @click="deleteLog"> CreateUser </el-button>
+        <el-button type="submit" @click="goToCreate()">Add</el-button>
         
     </div>
+    <br>
+    <br>
 
 
         <el-table
     ref="multipleTable"
-    :data="logs"
+    :data="users"
     
-    @row-click="rowClick(log.id)"
+    @row-click="rowClick(user.id)"
     style="width: 100%"
     >
     
     
     
     <el-table-column
-      prop="id"
-      label="Id"
+      prop="user_id"
+      label="UserId"
       width="120">
     </el-table-column>
     <el-table-column
@@ -44,14 +46,14 @@
     <el-table-column
       align="right">
       
-      <template slot-scope="scope">
+      <template slot-scope="">
           <el-button
           size="mini"
-          @click="handleEdit(scope.$index, scope.row)" icon="el-icon-edit" ></el-button>
+          @click="goToUpdate()" icon="el-icon-edit" ></el-button>
         <el-button
           size="mini"
           type="danger"
-          @click="deleteLog(scope.$index, scope.row)">Delete</el-button>
+          @click="deleteUser(id)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -78,15 +80,12 @@ import {mapState} from 'vuex'
     
 
     computed: {
-      ...mapState(['logs','log'])
+      ...mapState(['users'])
     },
 
-    // async fetch() {
-    //   await this.getAllLogs()
-    // },
     
     async mounted() {
-    await this.$store.dispatch('getAllLogs',this.queryParams)
+    await this.$store.dispatch('getAllUsers')
  
     return
   },
@@ -96,12 +95,17 @@ import {mapState} from 'vuex'
 
     methods: {
 
-
-      async deleteLog(id) {
-        await this.$store.dispatch('deleteLog', id)
-        await this.$store.dispatch('getAllLogs')
-        this.$router.push('/Loghome')
-    }
+      async goToUpdate(){
+         await this.$router.push('/UpdateUser')
+      },
+      async goToCreate(){
+         await this.$router.push('/CreateUserLog')
+      },
+      async deleteUser(id) {
+        await this.$store.dispatch('deleteUser', id)
+        
+    },
+      
       
     }
   }

@@ -4,6 +4,8 @@
   <div class="smch">
 
     <Header />
+    <br>
+    <br>
 
     
    <el-table
@@ -77,9 +79,7 @@ import {mapState} from 'vuex'
       ...mapState(['logs','log'])
     },
 
-    // async fetch() {
-    //   await this.getAllLogs()
-    // },
+    
     
     async mounted() {
     await this.$store.dispatch('getAllLogs',this.queryParams)

@@ -4,6 +4,7 @@ const state = () => ({
     is_superuser: null,
     email: null,
     logs: [],
+    users:[],
     // comments: [],
     log: [],
     errorMsg: null,
@@ -25,6 +26,10 @@ const mutations = {
         state.logs = data;
         console.log(state.Logs);
     },
+    allUsers(state, data) {
+        state.users = data;
+        console.log(state.users);
+    },
     setLog(state, data) {
         state.log = data;
         console.log(state.log);
@@ -33,9 +38,9 @@ const mutations = {
     //     state.comments = data;
     //     console.log(state.comments);
     // },
-    // CreatePost(state, data) {
-    //     //    state.CreateTodo = data;
-    // },
+    CreateUser(state, data) {
+           state.CreateUser = data;
+    },
     
     // updatePost(state, data) {
     //     state.post.title = data;
@@ -80,18 +85,20 @@ const actions = {
 
     async getAllLogs({ commit, state }, data) {
         await this.$axios.get('http://localhost:5000/api/Log', {
-            params: {
-                // page: data.page,
-                // limit: data.limit,
-                // title: data.title,
-                // from: data.from,
-                // to: data.to
-            }
+            
         }).then((res) => {
             console.log(res.data);
-            // console.log("hi")
-            // this.$router.push('/');
+            
             commit('allLogs', res.data);
+        })
+    },
+    async getAllUsers({ commit, state }, data) {
+        await this.$axios.get('http://localhost:5000/api/user', {
+            
+        }).then((res) => {
+            console.log(res.data);
+            
+            commit('allUsers', res.data);
         })
     },
     async goToLog({ commit }, data) {
@@ -110,15 +117,21 @@ const actions = {
     //     })
     // },
 
-    // async CreatePosts({ commit, state }, data) {
+    async CreateUser({ commit, state }, data) {
 
-    //     await this.$axios.post("http://localhost:5000/api/post", {
-    //         title: data.title,
-    //     }, { headers: { 'Authorization': 'Bearer ' + state.token } }).then((res) => {
-    //         console.log(res.data);
-    //         commit('CreatePost', res.data);
-    //     })
-    // },
+        await this.$axios.post('http://localhost:5000/api/user', {
+            name: data.name,
+            email: data.email,
+            hash_password: data.hash_password,
+        }, )
+            console.log(data);
+            commit('CreateUser', data);
+        
+    },
+    async deleteUser({ }, data) {
+        const res = await this.$axios.delete('http://localhost:5000/api/user?id=' + data);
+        console.log(res.data);
+    },
     
     // async createComment({ commit, state }, data) {
     //     const res = await this.$axios.post('http://localhost:5000/api/comment?id=' + state.post.id, { commenttext: data });
@@ -128,14 +141,11 @@ const actions = {
     //     const res = await this.$axios.delete('http://localhost:5000/api/comment/id?id=' + data);
     //     console.log(res.data);
     // },
-    // async deletePost({ }, data) {
-    //     const res = await this.$axios.delete('http://localhost:5000/api/post/' + data);
-    //     console.log(res.data);
-    // },
-    // async updatePost({ state }, data) {
-    //     const res = await this.$axios.put('http://localhost:5000/api/post/' + state.post.id, { title: data });
-    //     console.log(res.data);
-    // },
+    
+    async updateUser({ state }, data) {
+        const res = await this.$axios.put('http://localhost:5000/api/user/', );
+        console.log(res.data);
+    },
     // async updateUser({ state }, data) {
     //     const res = await this.$axios.put('http://localhost:5000/api/user/id', { full_name: data });
     // }

@@ -1,6 +1,5 @@
 export { default as Header } from '../..\\components\\Header.vue'
 export { default as SuperUserHeader } from '../..\\components\\SuperUserHeader.vue'
-export { default as UISticky } from '../..\\components\\UI\\Sticky.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {
