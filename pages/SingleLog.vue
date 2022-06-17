@@ -109,10 +109,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(['log', 'description', 'tags']),
+    ...mapState(['log', 'description', 'tags', 'current_tags']),
   },
 
   methods: {
+    // async getAllTags() {
+    //   console.log('get all tags');
+    // await this.$store.dispatch('getAllTags')
+    // },
+    async mounted() {
+    await this.$store.dispatch('getAllTags',this.queryParams)
+    },
     // async addTag() {
     //  console.log('in here to create a tag')
     //  await this.$store.dispatch('addTag', {

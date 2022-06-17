@@ -44,7 +44,7 @@
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
-      align="right">
+      :align="right">
       
       <template slot-scope="">
           <el-button
@@ -53,7 +53,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="deleteUser(id)">Delete</el-button>
+          @click="deleteUser(users.user_id)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -77,6 +77,7 @@ import {mapState} from 'vuex'
         
       }
     },
+
     
 
     computed: {
@@ -101,10 +102,14 @@ import {mapState} from 'vuex'
       async goToCreate(){
          await this.$router.push('/CreateUserLog')
       },
-      async deleteUser(id) {
+  async deleteUser(id, row) {
+       console.log('reached')
         await this.$store.dispatch('deleteUser', id)
-        
-    },
+        console.log('reached1')
+        this.$router.push('/AllUsers')
+        console.log('reached3')
+     
+    }
       
       
     }

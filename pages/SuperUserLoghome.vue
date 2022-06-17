@@ -99,7 +99,7 @@ import {mapState} from 'vuex'
       async rowClick(id){
       console.log(id)
       await this.$store.dispatch('goToLog', id)
-      await this.$router.push('/_id')
+      await this.$router.push('/SingleLog')
 
       },
 

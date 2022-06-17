@@ -9,7 +9,8 @@ const state = () => ({
     log: [],
     errorMsg: null,
     description: null,
-    title: null
+    title: null,
+    current_tags: null
 
 })
 
@@ -60,6 +61,11 @@ const mutations = {
         let index = state.list.findIndex((x) => x.id ==id)
         if (index != -1) state.list.splice(index, 1)
     },
+    deleteUser(state, id){
+        if (!state.list) return 
+        let index = state.list.findIndex((x) => x.id ==id)
+        if (index != -1) state.list.splice(index, 1)
+    },
 
 
     updateUser(state,data) {
@@ -67,10 +73,10 @@ const mutations = {
         state.users[index].title = data.title
     },
 
-    // setTags(state , data) {
-    //     console.log('tags' + data)
-    //     state.current_tags = data
-    // }
+    setTags(state , data) {
+        console.log('tags' + data)
+        state.current_tags = data
+    }
 
 
 
@@ -141,8 +147,9 @@ const actions = {
         
     },
     async deleteUser({ }, data) {
-        const res = await this.$axios.delete('http://localhost:5000/api/user?id=' + data);
-        console.log(res.data); 
+        const res = await this.$axios.delete('http://localhost:5000/api/user' + data);
+        //console.log(res.data); 
+        console.log('at least reaching this point');
     },
     
     // async createComment({ commit, state }, data) {
@@ -183,10 +190,10 @@ const actions = {
     //     })
     // },
 
-    // async getAllLogs({ commit, state}, data) {
-    //     const res = await this.$axios.log(' Log',data)
-    //     commit('setTags',res.data)
-    // }
+    async getAllTags({ commit, state}, data) {
+        const res = await this.$axios.log(' tag',data)
+        commit('setTags',res.data)
+    }
 
       
 

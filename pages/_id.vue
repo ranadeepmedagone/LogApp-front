@@ -110,7 +110,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['title', 'description', 'tags']),
+    ...mapState( 'log'['title', 'description', 'tags']),
   },
   async mounted() {
         await this.$store.dispatch('goToLog', this.$route.params.id)
