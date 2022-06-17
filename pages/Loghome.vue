@@ -11,7 +11,6 @@
    <el-table
     ref="multipleTable"
     :data="logs"
-    
     @row-click="rowClick(log.id)"
     style="width: 100%"
     @selection-change="handleSelectionChange">
@@ -41,7 +40,8 @@
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
-      align="right">
+      prop="log_id"
+      :align="right">
       
       <template slot-scope="scope">
         <el-button
@@ -50,7 +50,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="deleteLog(scope.$index, scope.row)">Delete</el-button>
+          @click="deleteLog(logs[scope.$index].log_id)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -92,8 +92,15 @@ import {mapState} from 'vuex'
 
     methods: {
 
+      async rowClick(id){
+      console.log(id)
+      await this.$store.dispatch('goToLog', id)
+      await this.$router.push('/SingleLog')
 
-      async deleteLog(id) {
+      },
+
+      async deleteLog(id, row) {
+        console.log(" STOP 1 " + id);
         await this.$store.dispatch('deleteLog', id)
         await this.$store.dispatch('getAllLogs')
         this.$router.push('/Loghome')

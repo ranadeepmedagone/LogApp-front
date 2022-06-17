@@ -80,6 +80,9 @@ import {mapState} from 'vuex';
 export default {
   data() {
     return {
+      rules:'',
+      loading:'',
+      Title:'',
         isVisible:'',
         textarea:'',
         options: [{

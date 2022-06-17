@@ -55,11 +55,18 @@ const mutations = {
     updateDescription(state, data) {
         state.Description = data
     },
+    deleteLog(state, id){
+        if (!state.list) return 
+        let index = state.list.findIndex((x) => x.id ==id)
+        if (index != -1) state.list.splice(index, 1)
+    },
+
 
     updateUser(state,data) {
         const index = state.users.findIndex((user) => user.id === user.id)
         state.users[index].title = data.title
     }
+
 
 
 }
@@ -130,17 +137,17 @@ const actions = {
     },
     async deleteUser({ }, data) {
         const res = await this.$axios.delete('http://localhost:5000/api/user?id=' + data);
-        console.log(res.data);
+        console.log(res.data); 
     },
     
     // async createComment({ commit, state }, data) {
     //     const res = await this.$axios.post('http://localhost:5000/api/comment?id=' + state.post.id, { commenttext: data });
     //     // commit('commentCreate', data);
     // },
-    // async deleteComment({ }, data) {
-    //     const res = await this.$axios.delete('http://localhost:5000/api/comment/id?id=' + data);
-    //     console.log(res.data);
-    // },
+    async deleteLog({ }, data) {
+        const res = await this.$axios.delete('http://localhost:5000/api/log/' + data);
+        console.log(res.data);
+    },
     
     async updateUser({ state }, data) {
         const res = await this.$axios.put('http://localhost:5000/api/user/', );
@@ -162,7 +169,15 @@ const actions = {
         const res = await this.$axios.put('log/update', data)
         console.log(res, 'Updated')
         commit('updateDescription', data.Description)
-      },
+      }, 
+
+    //   async deleteLog({commit }, id) {
+    //     console.log(" atleast reaching here ");
+    //     const res = await this.$axios.delete('http://localhost:5000/api/Log?id=' + id);
+    //     commit('deleteLog', id)
+    //     console.log(res.id); 
+    //     return[id, null]
+    // },
 
       
 

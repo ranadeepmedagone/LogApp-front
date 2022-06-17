@@ -41,7 +41,7 @@
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
-      align="right">
+      :align="right">
       
       <template slot-scope="scope">
         <el-button
@@ -50,7 +50,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+         @click="deleteLog(logs[scope.$index].log_id)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -102,6 +102,13 @@ import {mapState} from 'vuex'
       await this.$router.push('/SingleLog')
 
       },
+
+       async deleteLog(id, row) {
+        console.log(" STOP 1 " + id);
+        await this.$store.dispatch('deleteLog', id)
+        await this.$store.dispatch('getAllLogs')
+        this.$router.push('/Loghome')
+    },
 
       // async goToLog(id) {
       // console.log(id)

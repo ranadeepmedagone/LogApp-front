@@ -9,7 +9,7 @@
     v-model="value2"
     multiple
     collapse-tags
-    style="margin-left: 20px;"
+    style="margin-left: 20px;" 
     placeholder="Select">
     <el-option
       v-for="item in options"
