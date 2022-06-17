@@ -99,7 +99,7 @@ import {mapState} from 'vuex'
       async rowClick(id){
       console.log(id)
       await this.$store.dispatch('goToLog', id)
-      await this.$router.push('/SingleLog')
+      await this.$router.push('/_id')
 
       },
 
@@ -107,7 +107,7 @@ import {mapState} from 'vuex'
         console.log(" STOP 1 " + id);
         await this.$store.dispatch('deleteLog', id)
         await this.$store.dispatch('getAllLogs')
-        this.$router.push('/Loghome')
+        this.$router.push('/SuperUserLoghome')
     },
 
       // async goToLog(id) {

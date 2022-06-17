@@ -12,6 +12,7 @@
     <div class="createPost-container container">
       <el-form 
         ref="form"
+        :data="log"
         :rules="rules"
         :model="form"
         label-position="top"
@@ -109,8 +110,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['log', 'description', 'tags']),
+    ...mapState(['title', 'description', 'tags']),
   },
+  async mounted() {
+        await this.$store.dispatch('goToLog', this.$route.params.id)
+    },
 
   methods: {
     // async addTag() {
@@ -139,12 +143,18 @@ export default {
         await this.$store.dispatch('deleteLog', id)
         await this.$store.dispatch('getAllLogs')
         this.$router.push('/SingleLog')
-    }
-  }
+    },
+    // async goToLog() {
+    //     await this.$store.dispatch('goToLog')
+    //     console.log('title');
+        
+    // },
+    
+
   }
 
   
-
+}
 </script> 
 
 <style scoped>

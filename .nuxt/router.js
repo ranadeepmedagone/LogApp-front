@@ -11,6 +11,7 @@ const _037569a0 = () => interopDefault(import('..\\pages\\SingleLog.vue' /* webp
 const _c9f1166e = () => interopDefault(import('..\\pages\\SuperUserLoghome.vue' /* webpackChunkName: "pages/SuperUserLoghome" */))
 const _073ec720 = () => interopDefault(import('..\\pages\\UpdateUser.vue' /* webpackChunkName: "pages/UpdateUser" */))
 const _38939bb6 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _a6bdd8c4 = () => interopDefault(import('..\\pages\\_id.vue' /* webpackChunkName: "pages/_id" */))
 
 const emptyFn = () => {}
 
@@ -51,6 +52,10 @@ export const routerOptions = {
     path: "/",
     component: _38939bb6,
     name: "index"
+  }, {
+    path: "/:id",
+    component: _a6bdd8c4,
+    name: "id"
   }],
 
   fallback: false

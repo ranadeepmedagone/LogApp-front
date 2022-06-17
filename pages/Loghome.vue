@@ -11,7 +11,7 @@
    <el-table
     ref="multipleTable"
     :data="logs"
-    @row-click="rowClick(log.id)"
+    @row-click="rowClick(logs.id)"
     style="width: 100%"
     @selection-change="handleSelectionChange">
     
@@ -95,7 +95,7 @@ import {mapState} from 'vuex'
       async rowClick(id){
       console.log(id)
       await this.$store.dispatch('goToLog', id)
-      await this.$router.push('/SingleLog')
+      await this.$router.push('/_id')
 
       },
 

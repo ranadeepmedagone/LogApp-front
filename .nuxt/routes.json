@@ -47,5 +47,12 @@
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
     "_name": "_38939bb6"
+  },
+  {
+    "name": "id",
+    "path": "/:id",
+    "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\_id.vue",
+    "chunkName": "pages/_id",
+    "_name": "_a6bdd8c4"
   }
 ]
