@@ -7,6 +7,7 @@ const state = () => ({
     users:[],
     // current_tags: [],
     log: [],
+    user:[],
     errorMsg: null,
     description: null,
     title: null,
@@ -33,7 +34,9 @@ const mutations = {
     },
     setLog(state, data) {
         state.log = data;
-        console.log(state.log);
+    },
+    setUser(state, data) {
+        state.user = data;
     },
     // allComments(state, data) {
     //     state.comments = data;
@@ -89,7 +92,13 @@ const actions = {
             const res = await this.$axios.post('http://localhost:5000/api/user/login', data)
             console.log(res.data)
             commit('Login', res.data)
-            this.$axios.setHeader('Authorization', 'Bearer ' + res.data.token)
+            if(res.data.is_superuser==true){
+                this.$axios.setHeader('Authorization', 'Bearer ' + res.data.token)
+                this.$router.push({ path: '/SuperUserLoghome' })
+            }else{
+                this.$axios.setHeader('Authorization', 'Bearer ' + res.data.token)
+                this.$router.push({ path: '/Loghome' })
+            }
         }
         catch (error) {
             if (error.response.data) {
@@ -121,10 +130,17 @@ const actions = {
     },
     async goToLog({ commit }, data) {
         console.log(data)
-        const res = await this.$axios.get('http://localhost:5000/api/Log?id=' + data);
+        const res = await this.$axios.get('http://localhost:5000/api/Log/' + data);
         console.log("log")
         console.log(res.data)
         commit('setLog', res.data)
+    },
+    async goToUser({ commit }, data) {
+        console.log(data)
+        const res = await this.$axios.get('http://localhost:5000/api/user/' + data);
+        console.log("log")
+        console.log(res.data)
+        commit('setUser', res.data)
     },
 
     // async getAllComments({ commit, state }) {
@@ -134,7 +150,7 @@ const actions = {
     //         commit('allComments', res.data);
     //     })
     // },
-
+   
     async CreateUser({ commit, state }, data) {
 
         await this.$axios.post('http://localhost:5000/api/user', {
@@ -147,10 +163,14 @@ const actions = {
         
     },
     async deleteUser({ }, data) {
-        const res = await this.$axios.delete('http://localhost:5000/api/user' + data);
+        const res = await this.$axios.delete('http://localhost:5000/api/user/' + data);
         //console.log(res.data); 
         console.log('at least reaching this point');
     },
+    async updateUser({ state }, data) {
+        const res = await this.$axios.put('http://localhost:5000/api/user/', +state.user.user_id, { name: data,email:data,hash_password:data });
+    },
+
     
     // async createComment({ commit, state }, data) {
     //     const res = await this.$axios.post('http://localhost:5000/api/comment?id=' + state.post.id, { commenttext: data });
@@ -161,10 +181,10 @@ const actions = {
         console.log(res.data);
     },
     
-    async updateUser({ state }, data) {
-        const res = await this.$axios.put('http://localhost:5000/api/user/', );
-        console.log(res.data);
-    },
+    // async updateUser({ state }, data) {
+    //     const res = await this.$axios.put('http://localhost:5000/api/user/',data );
+    //     console.log(res.data);
+    // },
     // async updateUser({ state }, data) {
     //     const res = await this.$axios.put('http://localhost:5000/api/user/id', { full_name: data });
     // }

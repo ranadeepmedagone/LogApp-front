@@ -1,60 +1,51 @@
 <template>
-
-
   <div class="smch">
-
     <SuperUserHeader />
-    <br>
-    <br>
+    <br />
+    <br />
 
-    
-   <el-table
-    ref="multipleTable"
-    :data="logs"
-    
-    @row-click="rowClick(log.id)"
-    style="width: 100%"
-    @selection-change="handleSelectionChange">
-    
-    <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
-    <!-- <el-table-column
+    <el-table
+      :data="logs"
+      style="width: 100%"
+      ref="multipleTable"
+      @selection-change="handleSelectionChange"
+      @row-click="rowClick"
+    >
+      <el-table-column type="selection" width="55"> </el-table-column>
+      <!-- <el-table-column
       label="Date"
       width="120">
       <template slot-scope="scope">{{ scope.row.date }}</template>
     </el-table-column> -->
-    <el-table-column
-      prop="title"
-      label="Title"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="description"
-      label="Description"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="stack_trace"
-      label="StackTrace"
-      show-overflow-tooltip>
-    </el-table-column>
-    <el-table-column
-      :align="right">
-      
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)" icon="el-icon-view" ></el-button>
-        <el-button
-          size="mini"
-          type="danger"
-         @click="deleteLog(logs[scope.$index].log_id)">Delete</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-    </div>
+      <el-table-column prop="log_id" label="Id" width="120"> </el-table-column>
+      <el-table-column prop="title" label="Title" width="120">
+      </el-table-column>
+      <el-table-column prop="description" label="Description" width="120">
+      </el-table-column>
+      <el-table-column
+        prop="stack_trace"
+        label="StackTrace"
+        show-overflow-tooltip
+      >
+      </el-table-column>
+      <el-table-column :align="right">
+        <template slot-scope="scope">
+          <el-button
+            v-if="logs[scope.$index].status == true"
+            size="mini"
+            @click="unseen(scope.$index, scope.row)"
+            >Unseen</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteLog(logs[scope.$index].log_id)"
+            >Delete</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
   <!-- <div style="margin-top: 20px">
     <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of second and third rows</el-button>
     <el-button @click="toggleSelection()">Clear selection</el-button>
@@ -63,76 +54,66 @@
 
 <script>
 // import { title } from 'process'
-import {mapState} from 'vuex'
-  export default {
-    data() {
-      return {
-        
+import { mapState } from 'vuex'
+export default {
+  data() {
+    return {
       search: '',
       multipleSelection: [],
-        
-      }
-    },
-    
+    }
+  },
 
-    computed: {
-      ...mapState(['logs','log'])
-    },
+  computed: {
+    ...mapState(['logs', 'log']),
+  },
 
-    // async fetch() {
-    //   await this.getAllLogs()
-    // },
-    
-    async mounted() {
-    await this.$store.dispatch('getAllLogs',this.queryParams)
- 
+  // async fetch() {
+  //   await this.getAllLogs()
+  // },
+
+  async mounted() {
+    await this.$store.dispatch('getAllLogs', this.queryParams)
+
     return
   },
 
-
-
-
-    methods: {
-
-      
-
-      async rowClick(id){
-      console.log(id)
-      await this.$store.dispatch('goToLog', id)
-      await this.$router.push('/SingleLog')
-
-      },
-
-       async deleteLog(id, row) {
-        console.log(" STOP 1 " + id);
-        await this.$store.dispatch('deleteLog', id)
-        await this.$store.dispatch('getAllLogs')
-        this.$router.push('/SuperUserLoghome')
+  methods: {
+    async rowClick(row, column, event) {
+      alert(row.log_id)
+      await this.$store.dispatch('goToLog', row.log_id)
+      await this.$router.push('/' + row.log_id)
     },
 
-      // async goToLog(id) {
-      // console.log(id)
-      // await this.$store.dispatch('goToLog', id)
-      // await this.$router.push('/SingleLog')
+    async deleteLog(id, row) {
+      console.log(' STOP 1 ' + id)
+      await this.$store.dispatch('deleteLog', id)
+      await this.$store.dispatch('getAllLogs')
+      this.$router.push('/SuperUserLoghome')
+    },
+
+    // async goToLog(id) {
+    // console.log(id)
+    // await this.$store.dispatch('goToLog', id)
+    // await this.$router.push('/SingleLog')
     // },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-      
-    }
-  }
+
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach((row) => {
+          this.$refs.multipleTable.toggleRowSelection(row)
+        })
+      } else {
+        this.$refs.multipleTable.clearSelection()
+      }
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+  },
+}
 </script>
 <style scoped>
-.smch{
-    margin: 30px;
+.smch {
+  margin: 30px;
 }
 </style>
