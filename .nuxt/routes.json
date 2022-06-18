@@ -1,5 +1,12 @@
 [
   {
+    "name": "all",
+    "path": "/all",
+    "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\all.vue",
+    "chunkName": "pages/all",
+    "_name": "_1bfcd005"
+  },
+  {
     "name": "AllUsers",
     "path": "/AllUsers",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\AllUsers.vue",

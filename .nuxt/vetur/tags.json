@@ -1,4 +1,7 @@
 {
+  "EditableCell": {
+    "description": "Auto imported from components/EditableCell.vue"
+  },
   "Header": {
     "description": "Auto imported from components/Header.vue"
   },

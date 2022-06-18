@@ -14,6 +14,16 @@
     <br />
 
     <el-table ref="multipleTable" :data="users" style="width: 100%">
+      <el-table-column label="Operations" min-width="180">
+        <el-button
+          icon="el-icon-edit"
+          v-if="(isVisible = true)"
+          @click="Visible( )"
+        >
+        </el-button>
+        <el-button type="success" icon="el-icon-check" v-else @click="update()">
+        </el-button>
+      </el-table-column>
       <el-table-column prop="user_id" label="UserId" width="120">
       </el-table-column>
       <div v-if="update">
@@ -52,20 +62,6 @@
       <el-table-column :align="right">
         <template slot-scope="scope">
           <div class="btn">
-            <el-button
-              v-if="(isVisible = true)"
-              size="mini"
-              @click="Visible"
-              icon="el-icon-edit"
-            ></el-button>
-
-            <el-button
-              v-else
-              size="mini"
-              @click="update"
-              icon="el-icon-check"
-            ></el-button>
-
             <el-button
               v-if="users[scope.$index].status == true"
               size="mini"

@@ -38,7 +38,7 @@
     </div>
     <div>
       <el-button type="submit" @click="addTag"
-        ><nuxt-link to="/AllUsers">All Users</nuxt-link></el-button
+        ><nuxt-link to="/all">All Users</nuxt-link></el-button
       >
     </div>
   </div>
