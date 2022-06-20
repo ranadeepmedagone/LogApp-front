@@ -1,5 +1,5 @@
 <template>
-  <div class="smch">
+  <div class="smch2">
     <SuperUserHeader />
     <br />
     <br />
@@ -30,18 +30,16 @@
       </el-table-column>
       <el-table-column :align="right">
         <template slot-scope="scope">
-          <el-button
-            v-if="logs[scope.$index].status == true"
-            size="mini"
-            @click="unseen(scope.$index, scope.row)"
-            >Unseen</el-button
-          >
-          <el-button
-            size="mini"
-            type="danger"
-            @click="deleteLog(logs[scope.$index].log_id)"
-            >Delete</el-button
-          >
+          <div class="s">
+            <el-button size="mini" icon="el-icon-view"></el-button>
+
+            <el-button
+              size="mini"
+              type="danger"
+              @click="deleteLog(logs[scope.$index].log_id)"
+              >Delete</el-button
+            >
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -87,7 +85,7 @@ export default {
     async deleteLog(id, row) {
       console.log(' STOP 1 ' + id)
       await this.$store.dispatch('deleteLog', id)
-      await this.$store.dispatch('getAllLogs')
+      // await this.$store.dispatch('getAllLogs')
       this.$router.push('/SuperUserLoghome')
     },
 
@@ -113,7 +111,10 @@ export default {
 }
 </script>
 <style scoped>
-.smch {
+.smch2 {
   margin: 30px;
+}
+.s {
+  display: flex;
 }
 </style>

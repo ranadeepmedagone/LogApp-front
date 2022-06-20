@@ -1,24 +1,32 @@
 <template>
-  <div class="smch">
+  <div class="smch3">
     <!-- ------- Action Buttons ------- -->
     <div class="nav">
       <el-button @click="$router.back()" icon="el-icon-back" plain></el-button>
       <p class="title">Title :{{ log.title }}</p>
-      <el-button
-        v-loading="loading"
-        type="danger"
-        plain
-        size="medium"
-        icon="el-icon-delete-solid"
-        slot="reference"
-        @click="deleteLog"
-      >
-        Delete
-      </el-button>
+
+      <div>
+        <el-button
+          v-loading="loading"
+          type="danger"
+          size="medium"
+          icon="el-icon-delete-solid"
+          slot="reference"
+          @click="deleteLog(log.log_id)"
+        >
+          Delete
+        </el-button>
+        <el-button
+          v-if="log.partiallly_deleted == true"
+          size="mini"
+          @click="restoreUser()"
+          >Deleted</el-button
+        >
+      </div>
     </div>
     <br />
     <br />
-    <div class="createPost-container container">
+    <div v-if="update" class="createPost-container container">
       <el-input
         type="textarea"
         :rows="2"
@@ -28,24 +36,23 @@
       </el-input>
       <br />
       <br />
-      <el-button type="primary" v-if="!isVisible" @click="visible"
+      <el-button type="primary" v-if="!isVisible" @click="Visible"
         >Update</el-button
       >
-      <el-button type="primary" v-else @click="UpdateDescription"
-        >Submit</el-button
-      >
+      <el-button type="primary" v-else @click="update">Submit</el-button>
     </div>
     <br />
     <h1>Tags:</h1>
-    <el-tag>Tag 1</el-tag>
-    <el-tag type="success">Tag 2</el-tag>
-    <el-tag type="info">Tag 3</el-tag>
-    <el-tag type="warning">Tag 4</el-tag>
-    <el-tag type="danger">Tag 5</el-tag>
+    <!-- <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+      {{ tags.name }}
+    </el-tag> -->
+    <el-tag type="success" v-for="(tags, i) in tags" :key="i">{{
+      tags.name
+    }}</el-tag>
     <br />
     <br />
     <br />
-    <div class="select">
+    <!-- <div class="select">
       <el-select v-model="value1" multiple placeholder="Select">
         <el-option
           v-for="item in options"
@@ -55,24 +62,7 @@
         >
         </el-option>
       </el-select>
-
-      <el-select
-        v-model="value2"
-        multiple
-        collapse-tags
-        style="margin-left: 20px"
-        placeholder="Select"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      <el-button type="submit" @click="addTag">Add</el-button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -82,57 +72,57 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
+      name: '',
+      // tags: [
+      //   { name: 'Tag 1', type: '' },
+      //   { name: tags.name, type: 'success' },
+      //   { name: 'Tag 3', type: 'info' },
+      //   { name: 'Tag 4', type: 'warning' },
+      //   { name: 'Tag 5', type: 'danger' },
+      // ],
+      // options: [
+      //   {
+      //     value: 'Option1',
+      //     label: 'Option1',
+      //   },
+      // ],
+
+      textarea: '',
       description: '',
       isVisible: false,
-      options: [
-        {
-          value: 'Option1',
-          label: 'Option1',
-        },
-        {
-          value: 'Option2',
-          label: 'Option2',
-        },
-        {
-          value: 'Option3',
-          label: 'Option3',
-        },
-        {
-          value: 'Option4',
-          label: 'Option4',
-        },
-        {
-          value: 'Option5',
-          label: 'Option5',
-        },
-      ],
-      value1: [],
-      value2: [],
+      // options: [
+      //   {
+      //     value: '',
+      //     label: '',
+      //   },
+      // ],
     }
+  },
+  async created() {
+    await this.$store.dispatch('getTags')
+    return
   },
 
   methods: {
-    visible() {
-      this.isVisible = true
-      this.Description = this.$store.state.Description
+    Visible() {
+      this.isVisible = !this.isVisible
+      this.description = this.$store.state.description
     },
-    UpdateDescription() {
+    update() {
       this.isVisible = false
       console.log(this.Description)
-      this.$store.dispatch('updateDescription', {
-        description: this.Description,
-      })
+      this.$store.dispatch('updateDescription', this.description)
     },
 
     async deleteLog(id, row) {
       console.log(' STOP 1 ' + id)
       await this.$store.dispatch('deleteLog', id)
-      await this.$store.dispatch('getAllLogs')
-      this.$router.push('/SingleLog')
+      // await this.$store.dispatch('getAllLogs')
+      this.$router.push('/SuperUserLoghome')
     },
   },
   computed: {
-    ...mapState(['log']),
+    ...mapState(['log', 'tags']),
   },
 }
 </script>
@@ -149,7 +139,7 @@ export default {
 .title {
   font-weight: bold;
 }
-.smch {
+.smch3 {
   margin: 30px;
 }
 </style>

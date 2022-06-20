@@ -1,66 +1,46 @@
 <template>
   <div id="app">
-    <el-tooltip
+    <sticky class="st">
+      <div class="smch">
+        <el-button
+          @click="$router.back()"
+          icon="el-icon-back"
+          plain
+        ></el-button>
+        <el-input
+          :data="users"
+          v-model="search"
+          @click="search"
+          placeholder="Type to search"
+        />
+        <el-button type="submit" @click="goToCreate()">Create</el-button>
+      </div>
+    </sticky>
+    <br />
+    <br />
+
+    <!-- <el-tooltip
       content="Click on any of the cells or on the edit button to edit content"
     >
       <i class="el-icon-info"></i>
-    </el-tooltip>
+    </el-tooltip> -->
     <el-table :data="users" style="width: 100%">
       <el-table-column label="Operations" min-width="180">
-        <template slot-scope="{ row, index }">
-          <el-button icon="el-icon-edit" @click="setEditMode(row, index)">
-          </el-button>
-          <el-button
-            type="success"
-            icon="el-icon-check"
-            @click="saveRow(row, index)"
-          >
-          </el-button>
-        </template>
-      </el-table-column>
-
-      <el-table-column prop="name" label="Name" min-width="180">
-        <editable-cell
-          :show-input="row.editMode"
-          slot-scope="{ row }"
-          v-model="row.name"
-        >
-          <span slot="content">{{ row.name }}</span>
-        </editable-cell>
-      </el-table-column>
-
-      <el-table-column min-wwidth="150" label="Gender">
-        <editable-cell
-          :show-input="row.editMode"
-          slot-scope="{ row }"
-          editable-component="el-select"
-          close-event="change"
-          v-model="row.gender"
-        >
-        </editable-cell>
-      </el-table-column>
-
-      <el-table-column prop="email" label="Email" min-width="180">
-        <editable-cell
-          :show-input="row.editMode"
-          slot-scope="{ row }"
-          v-model="row.email"
-        >
-          <span slot="content">{{ row.email }}</span>
-        </editable-cell>
-      </el-table-column>
-      <el-table-column prop="hash_password" label="Password" min-width="180">
-        <editable-cell
-          :show-input="row.editMode"
-          slot-scope="{ row }"
-          v-model="row.hash_password"
-        >
-          <span slot="content">{{ row.hash_password }}</span>
-        </editable-cell>
-      </el-table-column>
-      <el-table-column :align="right">
         <template slot-scope="scope">
+          <!-- <el-button
+            v-if="users[scope.$index].status == true"
+            icon="el-icon-edit"
+            @click="setEditMode(row, index)"
+          > -->
+          <!-- </el-button> -->
           <div class="btn">
+            <el-button
+              v-if="users[scope.$index].status == true"
+              type="success"
+              icon="el-icon-check"
+              @click="saveRow(row, index)"
+            >
+            </el-button>
             <el-button
               v-if="users[scope.$index].status == true"
               size="mini"
@@ -72,11 +52,35 @@
             <el-button
               v-if="users[scope.$index].status == false"
               size="mini"
-              @click="restoreUser(users[scope.$index].user_id)"
+              @click="restoreUser()"
               >Deactivate</el-button
             >
           </div>
         </template>
+      </el-table-column>
+
+      <el-table-column prop="user_id" label="UserId" width="120">
+      </el-table-column>
+      <el-table-column prop="name" label="Name" min-width="180">
+        <editable-cell
+          :show-input="row.editMode"
+          slot-scope="{ row }"
+          v-model="user.name"
+        >
+          <span slot="content">{{ row.name }}</span>
+        </editable-cell>
+      </el-table-column>
+
+      <el-table-column prop="email" label="Email" min-width="180">
+      </el-table-column>
+      <el-table-column prop="hash_password" label="Password" min-width="180">
+        <editable-cell
+          :show-input="row.editMode"
+          slot-scope="{ row }"
+          v-model="user.hash_password"
+        >
+          <span slot="content">{{ row.hash_password }}</span>
+        </editable-cell>
       </el-table-column>
     </el-table>
   </div>
@@ -93,30 +97,13 @@ export default {
   },
   data() {
     return {
-      name: '',
-      email: '',
-      hash_password: '',
       editMode: false,
-      gridData: [
+      user: [
         {
-          date: '2016-05-03',
-          name: 'Tom',
-          gender: 'M',
+          name: '',
         },
         {
-          date: '2016-05-02',
-          name: 'Lisa',
-          gender: 'F',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Jon',
-          gender: 'M',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Mary',
-          gender: 'F',
+          hash_password: '',
         },
       ],
     }
@@ -137,8 +124,43 @@ export default {
     setEditMode(row, index) {
       row.editMode = true
     },
-    saveRow(row, index) {
+    // saveRow(row, index) {
+    //   row.editMode = false
+    // },
+    // Visible() {
+    //   alert()
+    //   this.isVisible = true
+    //   this.name = this.user.name
+    //   this.email = this.user.email
+    //   this.hash_password = this.user.hash_password
+    //   // await this.$$store.dispatch('updatePost', this.title)
+    // },
+    // async goToUpdate() {
+    //   await this.$router.push('/UpdateUser')
+    // },
+    async goToCreate() {
+      await this.$router.push('/CreateUserLog')
+    },
+    async restoreUser() {
+      this.$router.push('/all')
+    },
+
+    async deleteUser(id, row) {
+      console.log('reached')
+      await this.$store.dispatch('deleteUser', id)
+      console.log('reached1')
+      this.$router.push('/all')
+      console.log('reached3')
+      await this.$store.dispatch('getAllUsers')
+    },
+    async saveRow(row, index) {
       row.editMode = false
+      await this.$store.dispatch(
+        'updateUser',
+        this.name,
+
+        this.hash_password
+      )
     },
   },
   //   mounted() {
@@ -156,5 +178,18 @@ export default {
 .edit-cell {
   min-height: 35px;
   cursor: pointer;
+}
+#app {
+  margin: 20px;
+}
+.smch {
+  display: flex;
+  justify-content: space-between;
+}
+.st {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: yellow;
 }
 </style>

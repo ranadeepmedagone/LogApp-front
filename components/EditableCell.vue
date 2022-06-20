@@ -60,6 +60,8 @@ export default {
   },
   data() {
     return {
+      name: '',
+      hash_password: '',
       editMode: false,
     }
   },
