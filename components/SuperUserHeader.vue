@@ -36,6 +36,7 @@
         placeholder="Type to search"
       />
     </div>
+
     <div>
       <el-button type="submit" @click="addTag"
         ><nuxt-link to="/all">All Users</nuxt-link></el-button
@@ -51,11 +52,9 @@ export default {
     return {
       search: '',
       queryParams: {
-        // page: 1,
-        // limit: 20,
-        // title: '',
-        // from: '',
-        // to: ''
+        title: '',
+        from: '',
+        to: '',
       },
       options: [
         {
@@ -118,7 +117,7 @@ export default {
     }
   },
   async search() {
-    this.filter.search = this.searchInput
+    this.filter.search = this.search
 
     let success = await this.allLogs()
     if (success)
@@ -126,6 +125,19 @@ export default {
         message: 'Search applied',
         duration: 3000,
       })
+  },
+
+  filterByDate() {
+    this.error = ''
+    if (!this.filterDate.from_date && !this.filterDate.to_date) {
+      this.error = 'Enter at least one value'
+      return
+    }
+    if (this.filterDate.from_date > this.filterDate.to_date) {
+      this.error = 'From date cannot be greater than To date'
+      return
+    }
+    this.$emit('filterByDate', this.filterDate)
   },
   computed: {
     ...mapState(['logs']),

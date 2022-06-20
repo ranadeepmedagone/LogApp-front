@@ -3,56 +3,48 @@
     "name": "all",
     "path": "/all",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\all.vue",
-    "chunkName": "pages/all",
-    "_name": "_1bfcd005"
+    "chunkName": "pages/all"
   },
   {
     "name": "AllUsers",
     "path": "/AllUsers",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\AllUsers.vue",
-    "chunkName": "pages/AllUsers",
-    "_name": "_30d8af53"
+    "chunkName": "pages/AllUsers"
   },
   {
     "name": "CreateUserLog",
     "path": "/CreateUserLog",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\CreateUserLog.vue",
-    "chunkName": "pages/CreateUserLog",
-    "_name": "_8c7f17be"
+    "chunkName": "pages/CreateUserLog"
   },
   {
     "name": "Loghome",
     "path": "/Loghome",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\Loghome.vue",
-    "chunkName": "pages/Loghome",
-    "_name": "_09718532"
+    "chunkName": "pages/Loghome"
   },
   {
     "name": "SuperUserLoghome",
     "path": "/SuperUserLoghome",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\SuperUserLoghome.vue",
-    "chunkName": "pages/SuperUserLoghome",
-    "_name": "_c9f1166e"
+    "chunkName": "pages/SuperUserLoghome"
   },
   {
     "name": "UpdateUser",
     "path": "/UpdateUser",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\UpdateUser.vue",
-    "chunkName": "pages/UpdateUser",
-    "_name": "_073ec720"
+    "chunkName": "pages/UpdateUser"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_38939bb6"
+    "chunkName": "pages/index"
   },
   {
     "name": "id",
     "path": "/:id",
     "component": "C:\\\\Users\\\\Nspira\\\\Desktop\\\\log\\\\pages\\\\_id.vue",
-    "chunkName": "pages/_id",
-    "_name": "_a6bdd8c4"
+    "chunkName": "pages/_id"
   }
 ]

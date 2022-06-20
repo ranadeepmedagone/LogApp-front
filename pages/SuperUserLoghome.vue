@@ -95,6 +95,15 @@ export default {
     // await this.$router.push('/SingleLog')
     // },
 
+    // async refreshData(): Promise<void> {
+    //   let success = await this.getList()
+    //   if (success)
+    //     this.$message({
+    //       message: 'Data reloaded',
+    //       duration: 3000,
+    //       showClose: true,
+    //     })
+    // },
     toggleSelection(rows) {
       if (rows) {
         rows.forEach((row) => {

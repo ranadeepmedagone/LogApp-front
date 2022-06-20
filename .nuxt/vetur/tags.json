@@ -1,4 +1,7 @@
 {
+  "DateFilter": {
+    "description": "Auto imported from components/DateFilter.vue"
+  },
   "EditableCell": {
     "description": "Auto imported from components/EditableCell.vue"
   },

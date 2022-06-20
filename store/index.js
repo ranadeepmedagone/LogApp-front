@@ -4,15 +4,18 @@ const state = () => ({
     is_superuser: null,
     email: null,
     logs: [],
-    tags:[],
+    // tags:[],
     users:[],
     // current_tags: [],
     log: [],
-    tag:[],
+    // tag:[],
     user:[],
+    status:[],
     errorMsg: null,
     
     title: null,
+    description:null,
+    stack_trace: null,
     
 
 })
@@ -36,14 +39,15 @@ const mutations = {
     },
     setLog(state, data) {
         state.log = data;
+        state.description = data.description,
+        state.title = data.title,
+        state.stack_trace = data.stack_trace
+
     },
     setUser(state, data) {
         state.user = data;
     },
-    byIdTags(state, data) {
-        state.tags = data;
-        console.log(state.tags);
-    },
+    
     CreateUser(state, data) {
            state.CreateUser = data;
     },
@@ -59,7 +63,11 @@ const mutations = {
     },
 
     updateDescription(state, data) {
-        state.log.description = data;
+        state.description = data;
+    },
+    updateUser(state,data) {
+        const index = state.users.findIndex((user) => user.id === user.id)
+        state.users[index].status = data.status
     },
     deleteLog(state, id){
         if (!state.list) return 
@@ -73,17 +81,18 @@ const mutations = {
     },
 
 
-    updateUser(state,data) {
-        const index = state.users.findIndex((user) => user.id === user.id)
-        state.users[index].title = data.title
-    },
+    
     // allTags(state, data) {
     //     state.tags = data;
     //     console.log(state.Logs);
     // },
-    setTag(state, data) {
-        state.tag = data;
-    },
+    // setTag(state, data) {
+    //     state.tag = data;
+    // },
+    // byIdTags(state, data) {
+    //     state.tags = data;
+    //     console.log(state.tags);
+    // },
 
     
 
@@ -124,6 +133,26 @@ const actions = {
             commit('allLogs', res.data);
         })
     },
+    
+    async goToLog({ commit }, data) {
+        console.log(data)
+        const res = await this.$axios.get('http://localhost:5000/api/Log/' + data);
+        console.log("log")
+        console.log(res.data)
+        commit('setLog', res.data)
+    },
+    async updateDescription({ commit }, data) {
+        console.log(data)
+        const res = await this.$axios.put('http://localhost:5000/api/Log/'+data.id ,{discription: data.description})
+        console.log(res, 'Updated')
+        commit('updateDescription', data.description)
+    }, 
+    async updateUser({ commit }, data) {
+        console.log(data)
+        const res = await this.$axios.put('http://localhost:5000/api/user/'+data.id ,{status: data.status})
+        console.log(res, 'Updated')
+        commit('updateStatus', data.status)
+    }, 
     async getAllUsers({ commit, state }, data) {
         await this.$axios.get('http://localhost:5000/api/user', {
             
@@ -132,13 +161,6 @@ const actions = {
             
             commit('allUsers', res.data);
         })
-    },
-    async goToLog({ commit }, data) {
-        console.log(data)
-        const res = await this.$axios.get('http://localhost:5000/api/Log/' + data);
-        console.log("log")
-        console.log(res.data)
-        commit('setLog', res.data)
     },
     async goToUser({ commit }, data) {
         console.log(data)
@@ -166,9 +188,9 @@ const actions = {
         //console.log(res.data); 
         console.log('at least reaching this point');
     },
-    async updateUser({ state }, data) {
-        const res = await this.$axios.put('http://localhost:5000/api/user/', +state.user.user_id, { name: data.name,hash_password:data.hash_password });
-    },
+    // async updateUser({ state }, data) {
+    //     const res = await this.$axios.put('http://localhost:5000/api/user/', +state.user.user_id, { name: data.name,hash_password:data.hash_password });
+    // },
 
     
     
@@ -178,12 +200,7 @@ const actions = {
     },
     
     
-    async updateDescription({ state }, data) {
-        console.log(data)
-        const res = await this.$axios.put('http://localhost:5000/api/Log/' + state.log.log_id, {description: data})
-        console.log(res, 'Updated')
-        commit('updateDescription', data.description)
-    }, 
+    
 
     // async addTag({ commit, state}, data) {
     //     const res = await this.$axios.post('tag',{
@@ -201,13 +218,13 @@ const actions = {
     //         commit('allTags', res.data);
     //     })
     // },
-    async getTags({ commit, state }) {
-        await this.$axios.get("http://localhost:5000/api/Tag/" + state.log.tag_id).then((res) => {
-            console.log(res.data);
-            // this.$router.push('/');
-            commit('byIdTags', res.data);
-        })
-    },
+    // async getTags({ commit, state }) {
+    //     await this.$axios.get("http://localhost:5000/api/Tag/" + state.log.tag_id).then((res) => {
+    //         console.log(res.data);
+    //         // this.$router.push('/');
+    //         commit('byIdTags', res.data);
+    //     })
+    // },
     // async goToTag({ commit }, data) {
     //     console.log(data)
     //     const res = await this.$axios.get('http://localhost:5000/api/Tag/' + data);

@@ -1,3 +1,4 @@
+export { default as DateFilter } from '../..\\components\\DateFilter.vue'
 export { default as EditableCell } from '../..\\components\\EditableCell.vue'
 export { default as Header } from '../..\\components\\Header.vue'
 export { default as SuperUserHeader } from '../..\\components\\SuperUserHeader.vue'

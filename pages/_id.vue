@@ -27,28 +27,32 @@
     <br />
     <br />
     <div v-if="update" class="createPost-container container">
-      <el-input
-        type="textarea"
-        :rows="2"
-        placeholder="Please input"
-        v-model="log.description"
-      >
-      </el-input>
-      <br />
-      <br />
-      <el-button type="primary" v-if="!isVisible" @click="Visible"
-        >Update</el-button
-      >
-      <el-button type="primary" v-else @click="update">Submit</el-button>
+      <div>
+        <h1>Description:</h1>
+        <el-input
+          v-if="isVisible"
+          v-model="descriptionText"
+          type="textarea"
+          :rows="2"
+          placeholder="Please input"
+        ></el-input>
+        <el-p v-else>{{ log.description }}</el-p>
+        <br />
+        <br />
+        <el-button type="primary" v-if="!isVisible" @click="Visible"
+          >Update</el-button
+        >
+        <el-button type="primary" v-else @click="update">Submit</el-button>
+      </div>
     </div>
     <br />
     <h1>Tags:</h1>
     <!-- <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
       {{ tags.name }}
     </el-tag> -->
-    <el-tag type="success" v-for="(tags, i) in tags" :key="i">{{
+    <!-- <el-tag type="success" v-for="(tags, i) in tags" :key="i">{{
       tags.name
-    }}</el-tag>
+    }}</el-tag> -->
     <br />
     <br />
     <br />
@@ -72,7 +76,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      name: '',
+      // name: '',
       // tags: [
       //   { name: 'Tag 1', type: '' },
       //   { name: tags.name, type: 'success' },
@@ -88,7 +92,7 @@ export default {
       // ],
 
       textarea: '',
-      description: '',
+      descriptionText: '',
       isVisible: false,
       // options: [
       //   {
@@ -98,20 +102,25 @@ export default {
       // ],
     }
   },
-  async created() {
-    await this.$store.dispatch('getTags')
-    return
-  },
+  // async created() {
+  //   await this.$store.dispatch('getTags')
+  //   return
+  // },
 
   methods: {
     Visible() {
       this.isVisible = !this.isVisible
-      this.description = this.$store.state.description
+      this.description = this.description
+      this.descriptionText = this.log.description
     },
     update() {
+      alert(this.log.description)
       this.isVisible = false
-      console.log(this.Description)
-      this.$store.dispatch('updateDescription', this.description)
+      console.log(this.description)
+      this.$store.dispatch('updateDescription', {
+        id: this.$route.params.id,
+        description: this.descriptionText,
+      })
     },
 
     async deleteLog(id, row) {
@@ -122,7 +131,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['log', 'tags']),
+    ...mapState(['log']),
   },
 }
 </script>

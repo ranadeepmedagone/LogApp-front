@@ -38,7 +38,7 @@
               v-if="users[scope.$index].status == true"
               type="success"
               icon="el-icon-check"
-              @click="saveRow(row, index)"
+              @click="saveRow"
             >
             </el-button>
             <el-button
@@ -53,7 +53,7 @@
               v-if="users[scope.$index].status == false"
               size="mini"
               @click="restoreUser()"
-              >Deactivate</el-button
+              >Deleted</el-button
             >
           </div>
         </template>
@@ -62,24 +62,17 @@
       <el-table-column prop="user_id" label="UserId" width="120">
       </el-table-column>
       <el-table-column prop="name" label="Name" min-width="180">
-        <editable-cell
-          :show-input="row.editMode"
-          slot-scope="{ row }"
-          v-model="user.name"
-        >
-          <span slot="content">{{ row.name }}</span>
-        </editable-cell>
       </el-table-column>
 
       <el-table-column prop="email" label="Email" min-width="180">
       </el-table-column>
-      <el-table-column prop="hash_password" label="Password" min-width="180">
+      <el-table-column prop="status" label="Status" min-width="180">
         <editable-cell
           :show-input="row.editMode"
           slot-scope="{ row }"
-          v-model="user.hash_password"
+          v-model="statusText"
         >
-          <span slot="content">{{ row.hash_password }}</span>
+          <span slot="content">{{ row.status }}</span>
         </editable-cell>
       </el-table-column>
     </el-table>
@@ -98,14 +91,15 @@ export default {
   data() {
     return {
       editMode: false,
-      user: [
-        {
-          name: '',
-        },
-        {
-          hash_password: '',
-        },
-      ],
+      statusText: '',
+      // user: [
+      //   {
+      //     name: '',
+      //   },
+      //   {
+      //     hash_password: '',
+      //   },
+      // ],
     }
   },
   computed: {
@@ -127,6 +121,16 @@ export default {
     // saveRow(row, index) {
     //   row.editMode = false
     // },
+    saveRow() {
+      // row.editMode = false
+      alert(this.user.status)
+      // this.isVisible = false
+      console.log(this.status)
+      this.$store.dispatch('updateUser', {
+        id: this.$route.params.id,
+        status: this.statusText,
+      })
+    },
     // Visible() {
     //   alert()
     //   this.isVisible = true
