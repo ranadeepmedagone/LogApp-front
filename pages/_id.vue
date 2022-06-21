@@ -31,7 +31,7 @@
         <h1>Description:</h1>
         <el-input
           v-if="isVisible"
-          v-model="descriptionText"
+          v-model="description"
           type="textarea"
           :rows="2"
           placeholder="Please input"
@@ -46,27 +46,47 @@
       </div>
     </div>
     <br />
+    <h1>StackTrace:</h1>
+    <p>{{ log.stack_trace }}</p>
+    <br />
+    <br />
     <h1>Tags:</h1>
-    <!-- <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
-      {{ tags.name }}
-    </el-tag> -->
-    <!-- <el-tag type="success" v-for="(tags, i) in tags" :key="i">{{
-      tags.name
-    }}</el-tag> -->
+
+    <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+      {{ tag.name }}
+    </el-tag>
+    <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+      {{ tag.types }}
+    </el-tag>
     <br />
     <br />
-    <br />
-    <!-- <div class="select">
-      <el-select v-model="value1" multiple placeholder="Select">
+
+    <div>
+      <el-select v-model="tag" clearable placeholder="Select Tag">
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          v-for="item in tags"
+          :key="item.id"
+          :label="item.name"
+          :value="item.name"
         >
         </el-option>
       </el-select>
-    </div> -->
+      <el-select
+        v-model="types"
+        multiple
+        collapse-tags
+        style="margin-left: 20px"
+        placeholder="Select"
+      >
+        <el-option
+          v-for="item in tagTypes"
+          :key="item.id"
+          :label="item.name"
+          :value="item.name"
+        >
+        </el-option>
+      </el-select>
+    </div>
   </div>
 </template>
 
@@ -76,51 +96,37 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      // name: '',
-      // tags: [
-      //   { name: 'Tag 1', type: '' },
-      //   { name: tags.name, type: 'success' },
-      //   { name: 'Tag 3', type: 'info' },
-      //   { name: 'Tag 4', type: 'warning' },
-      //   { name: 'Tag 5', type: 'danger' },
-      // ],
-      // options: [
-      //   {
-      //     value: 'Option1',
-      //     label: 'Option1',
-      //   },
-      // ],
-
       textarea: '',
-      descriptionText: '',
+      description: '',
       isVisible: false,
-      // options: [
-      //   {
-      //     value: '',
-      //     label: '',
-      //   },
-      // ],
+      tag: '',
+      types: [],
+      options: [],
+      value1: [],
+      value2: [],
     }
   },
-  // async created() {
-  //   await this.$store.dispatch('getTags')
-  //   return
-  // },
+  async mounted() {
+    await this.$store.dispatch('getTags')
+    await this.$store.dispatch('getTagTypes')
+    return
+  },
 
   methods: {
     Visible() {
       this.isVisible = !this.isVisible
-      this.description = this.description
-      this.descriptionText = this.log.description
+      // this.description = this.description
+      this.description = this.log.description
     },
-    update() {
-      alert(this.log.description)
+    async update() {
       this.isVisible = false
       console.log(this.description)
-      this.$store.dispatch('updateDescription', {
+      await this.$store.dispatch('updateDescription', {
+        description: this.description,
         id: this.$route.params.id,
-        description: this.descriptionText,
       })
+      this.$router.push('/_id')
+      this.$store.commit('updateDescription', this.description)
     },
 
     async deleteLog(id, row) {
@@ -131,7 +137,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['log']),
+    ...mapState(['log', 'tags', 'tagTypes']),
   },
 }
 </script>

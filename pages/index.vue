@@ -18,7 +18,7 @@
               required
             />
             <input
-              v-model="formData.hash_password"
+              v-model="formData.hashed_password"
               type="password"
               placeholder="Password"
               required
@@ -33,6 +33,17 @@
             <!-- <button class="create-account">Create New Account</button> -->
           </form>
         </div>
+        <div class="backdrop" v-show="backdrop">
+          <div class="modal">
+            <h1 class="modal_title">Allow notifications</h1>
+            <div class="modal_actions">
+              <a href="#" class="modal_action">Allow</a>
+              <button class="modal_action modal_action--negative" type="button">
+                Block
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </body>
     <!-- </html> -->
@@ -40,26 +51,51 @@
 </template>
 
 <script>
+import { getAuth, signInAnonymously } from 'firebase/auth'
+import { getMessaging, onMessage, getToken } from 'firebase/messaging'
+import { messaging } from '@/plugins/firebase'
 // import axios from 'axios'
 // import UserHeader from "~/components/UserHeader.vue";
 export default {
+  mounted() {
+    const messaging = getMessaging()
+    onMessage(messaging, (payload) => {
+      console.log('Message received. ', payload)
+    })
+  },
   name: 'login',
   // components: { UserHeader },
   data() {
     return {
       email: '',
-      hash_password: '',
+      hashed_password: '',
+      backdrop: false,
       formData: {
         email: this.email,
-        hash_password: this.hash_password,
+        hashed_password: this.hashed_password,
       },
     }
   },
   methods: {
     async login() {
-      console.log(this.formData.email)
-      console.log(this.formData.hash_password)
-      await this.$store.dispatch('login', this.formData)
+      await signInAnonymously(getAuth())
+      this.activate()
+    },
+    async activate() {
+      const token = await getToken(messaging, {
+        vapidKey:
+          'BJu-UZ1RHzlP24kVK514peQAew0uaZJ4rjGqWkpyxhiwL7hNnbj3CTgRXsVt597StsIa3mhKD_6dB6P6z1NM-t4',
+      })
+      await this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password,
+        notification_token: token,
+      })
+      // if (this.$store.state.ErrorMsg) {
+      //   this.$router.push('/')
+      // } else {
+      //   this.$router.push('/log')
+      // }
     },
   },
   head() {

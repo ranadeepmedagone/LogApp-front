@@ -38,7 +38,7 @@
               v-if="users[scope.$index].status == true"
               type="success"
               icon="el-icon-check"
-              @click="saveRow"
+              @click="saveRow(user.user_id)"
             >
             </el-button>
             <el-button
@@ -118,15 +118,15 @@ export default {
     setEditMode(row, index) {
       row.editMode = true
     },
-    // saveRow(row, index) {
-    //   row.editMode = false
-    // },
-    saveRow() {
-      // row.editMode = false
+    saveRow(row, index) {
+      row.editMode = false
+    },
+    saveRow(user_id) {
+      row.editMode = false
       alert(this.user.status)
       // this.isVisible = false
       console.log(this.status)
-      this.$store.dispatch('updateUser', {
+      this.$store.dispatch('updateUser', user_id, {
         id: this.$route.params.id,
         status: this.statusText,
       })

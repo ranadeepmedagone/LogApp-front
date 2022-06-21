@@ -31,7 +31,7 @@
     <div>
       <el-input
         :data="logs.filter((data) => !search)"
-        v-model="search"
+        v-model="value2"
         @click="search"
         placeholder="Type to search"
       />
@@ -48,7 +48,7 @@ export default {
       queryParams: {
         // page: 1,
         // limit: 20,
-        // title: '',
+        // titleFilter: '',
         // from: '',
         // to: ''
       },

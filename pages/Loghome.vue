@@ -1,6 +1,44 @@
 <template>
   <div class="smch">
-    <Header />
+    <div class="nav2">
+      <div>
+        <el-select
+          v-model="value2"
+          multiple
+          collapse-tags
+          style="margin-left: 20px"
+          placeholder="Select"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
+      <div class="block">
+        <span class="demonstration">Default</span>
+        <el-date-picker
+          v-model="value1"
+          type="daterange"
+          range-separator="To"
+          start-placeholder="Start date"
+          end-placeholder="End date"
+        >
+        </el-date-picker>
+      </div>
+      <div>
+        <el-input
+          :data="logs.filter((data) => !search)"
+          v-model="search"
+          @click="search"
+          placeholder="Type to search"
+        />
+      </div>
+    </div>
+
     <br />
     <br />
     <el-table
@@ -41,12 +79,50 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
+      // queryParams: {
+      // page: 1,
+      // limit: 20,
+      // title: '',
+      // from: '',
+      // to: ''
+      // },
       search: '',
       multipleSelection: [],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: 'Last week',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
+          },
+          {
+            text: 'Last month',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
+          },
+          {
+            text: 'Last 3 months',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
+      },
     }
   },
   async mounted() {
-    await this.$store.dispatch('getAllLogs')
+    await this.$store.dispatch('getAllLogs', this.queryParams)
     return
   },
   methods: {
@@ -71,5 +147,9 @@ export default {
 <style scoped>
 .smch {
   margin: 30px;
+}
+.nav2 {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

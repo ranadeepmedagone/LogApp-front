@@ -1,17 +1,92 @@
 <template>
   <div class="smch2">
-    <SuperUserHeader />
-    <br />
+    <div class="nav1">
+      <div class="s">
+        <el-select
+          v-model="queryParams.tag"
+          multiple
+          filterable=""
+          style="margin-left: 20px"
+          placeholder="Filter By Tags"
+        >
+          <el-option
+            v-for="item in tags"
+            :key="item.value"
+            :label="item.name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </div>
+
+      <div class="block">
+        <div>
+          <el-date-picker
+            v-model="queryParams.from"
+            type="date"
+            placeholder="From Date"
+            :picker-options="pickerOptions"
+          >
+          </el-date-picker>
+        </div>
+        <br />
+        <!-- <p>to</p> -->
+        <div>
+          <el-date-picker
+            v-model="queryParams.to"
+            type="date"
+            placeholder="To Date"
+            :picker-options="pickerOptions"
+            @change="getLogs"
+          >
+          </el-date-picker>
+        </div>
+      </div>
+      <div>
+        <el-input
+          type="search"
+          placeholder="Search Logs"
+          v-model="queryParams.title"
+          @change="getLogs"
+        ></el-input>
+      </div>
+      <!-- <div style="margin-top: 15px">
+        <el-input
+          placeholder="Please input"
+          v-model="input3"
+          class="input-with-select"
+        >
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+      </div> -->
+
+      <div>
+        <el-button type="submit" @click="addTag"
+          ><nuxt-link to="/all">All Users</nuxt-link></el-button
+        >
+      </div>
+    </div>
     <br />
 
+    <el-button
+      size="mini"
+      type="danger"
+      icon="el-icon-delete"
+      @click="deleteLogs"
+      v-if="this.selectedLogs.length > 0"
+    ></el-button>
+    <!-- <el-button size="mini" type="success" icon="el-icon-view"></el-button> -->
+
+    <br />
     <el-table
       :data="logs"
       style="width: 100%"
-      ref="multipleTable"
+      ref="multipleSelection"
       @selection-change="handleSelectionChange"
       @row-click="rowClick"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
+
       <!-- <el-table-column
       label="Date"
       width="120">
@@ -34,10 +109,17 @@
             <el-button size="mini" icon="el-icon-view"></el-button>
 
             <el-button
+              v-if="logs[scope.$index].partially_deleted == false"
               size="mini"
               type="danger"
               @click="deleteLog(logs[scope.$index].log_id)"
               >Delete</el-button
+            >
+            <el-button
+              v-if="logs[scope.$index].partially_deleted == true"
+              size="mini"
+              type="success"
+              >Deleted</el-button
             >
           </div>
         </template>
@@ -56,8 +138,47 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      search: '',
+      selectedLogs: [],
+      queryParams: {
+        // page: 1,
+        // limit: 20,
+        title: '',
+        from: '',
+        to: '',
+        tag: '',
+      },
       multipleSelection: [],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: 'Last week',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            },
+          },
+          {
+            text: 'Last month',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            },
+          },
+          {
+            text: 'Last 3 months',
+            onClick(picker) {
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            },
+          },
+        ],
+      },
     }
   },
 
@@ -71,15 +192,31 @@ export default {
 
   async mounted() {
     await this.$store.dispatch('getAllLogs', this.queryParams)
-
+    await this.$store.dispatch('getTags')
     return
   },
 
   methods: {
+    async getLogs() {
+      await this.$store.dispatch('getAllLogs')
+    },
     async rowClick(row, column, event) {
       alert(row.log_id)
       await this.$store.dispatch('goToLog', row.log_id)
       await this.$router.push('/' + row.log_id)
+    },
+    async getLogs() {
+      console.log(this.queryParams)
+      await this.$store.dispatch('getAllLogs', this.queryParams)
+    },
+
+    deleteLogs() {
+      this.selectedLogs.forEach((row) =>
+        this.$store.dispatch('deleteLog', row.id)
+      )
+    },
+    handleSelectionChange(val) {
+      this.selectedLogs = val
     },
 
     async deleteLog(id, row) {
@@ -87,6 +224,10 @@ export default {
       await this.$store.dispatch('deleteLog', id)
       // await this.$store.dispatch('getAllLogs')
       this.$router.push('/SuperUserLoghome')
+    },
+    getTags() {
+      alert()
+      this.$store.dispatch('getTags')
     },
 
     // async goToLog(id) {
@@ -104,18 +245,18 @@ export default {
     //       showClose: true,
     //     })
     // },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach((row) => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
-      }
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val
-    },
+    // toggleSelection(rows) {
+    //   if (rows) {
+    //     rows.forEach((row) => {
+    //       this.$refs.multipleTable.toggleRowSelection(row)
+    //     })
+    //   } else {
+    //     this.$refs.multipleTable.clearSelection()
+    //   }
+    // },
+    // handleSelectionChange(val) {
+    //   this.multipleSelection = val
+    // },
   },
 }
 </script>
@@ -125,5 +266,18 @@ export default {
 }
 .s {
   display: flex;
+}
+.nav1 {
+  display: flex;
+  justify-content: space-between;
+}
+.block {
+  display: flex;
+}
+.b {
+  display: flex;
+}
+.s {
+  margin-left: -20px;
 }
 </style>
